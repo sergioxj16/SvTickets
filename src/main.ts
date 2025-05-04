@@ -7,10 +7,10 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    provideExperimentalZonelessChangeDetection(),
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
-    provideRouter(routes, withPreloading(PreloadAllModules)),
-  ],
+    providers: [
+        provideExperimentalZonelessChangeDetection(),
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        provideIonicAngular(),
+        provideRouter(routes, withPreloading(PreloadAllModules)),
+    ],
 });
