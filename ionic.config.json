@@ -1,0 +1,7 @@
+{
+  "name": "SvTickets",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
