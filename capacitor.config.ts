@@ -1,9 +1,17 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'es.fullstackpro.svtickets',
   appName: 'SvTickets',
-  webDir: 'www'
+  webDir: 'www',
+  android: {
+    allowMixedContent: true,
+  },
+  plugins: {
+    Camera: {
+      presentationStyle: 'fullscreen',
+    },
+  },
 };
 
 export default config;

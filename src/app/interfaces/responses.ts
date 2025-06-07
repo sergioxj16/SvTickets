@@ -16,16 +16,15 @@ export interface TokenResponse {
     accessToken: string;
 }
 
-export interface SingleUserResponse {
+export interface UserResponse {
     user: User;
 }
 
+export interface UsersResponse {
+    users: User[];
+}
 export interface AvatarResponse {
     avatar: string;
-}
-
-export interface UserResponse {
-    user: User[];
 }
 
 export interface CommentsResponse {
