@@ -27,6 +27,7 @@ import { ValueEqualsDirective } from '../../shared/validators/value-equals.direc
 import { Geolocation } from '@capacitor/geolocation';
 import { addCircleSharp, addSharp, arrowUndoCircle, calendarOutline, calendarSharp, camera, cashOutline, cashSharp, chatboxEllipsesSharp, checkmarkCircle, closeCircle, closeSharp, documentText, exit, eyeSharp, home, images, imageSharp, informationCircleSharp, locationOutline, locationSharp, lockOpenSharp, logIn, logOut, mailSharp, mapSharp, navigateSharp, optionsSharp, pencilSharp, peopleSharp, personAddSharp, personRemoveSharp, searchSharp, trashBinSharp } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { CanComponentDeactivate } from '../../shared/guards/leave-page.guard';
 
 @Component({
     selector: 'app-register',
@@ -54,7 +55,7 @@ import { addIcons } from 'ionicons';
         IonLabel,
     ],
 })
-export class RegisterPage {
+export class RegisterPage implements CanComponentDeactivate {
     coords = signal<[number, number]>([-0.5, 38.5]);
 
     constructor() {
@@ -157,7 +158,6 @@ export class RegisterPage {
         }
     }
 
-
     async pickFromGallery() {
         try {
             const photo = await Camera.getPhoto({
@@ -177,4 +177,7 @@ export class RegisterPage {
         }
     }
 
+    canDeactivate() {
+        return confirm('¿Seguro que quieres salir sin guardar?');
+    }
 }
