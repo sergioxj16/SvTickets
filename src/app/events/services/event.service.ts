@@ -18,10 +18,19 @@ export class EventService {
     #http = inject(HttpClient);
     #eventsUrl = 'events/';
 
-    getEvents(urlParams: URLSearchParams): Observable<EventsResponse> {
-        return this.#http
-            .get<EventsResponse>(`${this.#eventsUrl}?${urlParams.toString()}`)
-            .pipe(map((resp) => resp));
+    getEvents(
+        page: number,
+        search: string = "",
+        order: "distance" | "date" | "price" = "distance",
+        creator: number | null = null,
+        attending: number | null = null
+    ): Observable<EventsResponse> {
+        const params: URLSearchParams = new URLSearchParams({ page: String(page), search, order, });
+
+        if (creator) params.append("creator", String(creator));
+        if (attending) params.append("attending", String(attending));
+
+        return this.#http.get<EventsResponse>(`events?${params.toString()}`);
     }
 
     getEvent(id: number): Observable<MyEvent> {

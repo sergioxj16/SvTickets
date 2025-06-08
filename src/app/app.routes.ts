@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { logoutActivateGuard } from './shared/guards/logout-activate.guard';
+import { loginActivateGuard } from './shared/guards/login-activate.guard';
 
 export const routes: Routes = [
     {
@@ -10,17 +12,12 @@ export const routes: Routes = [
         path: 'auth',
         loadChildren: () =>
             import('./auth/auth.routes').then((m) => m.authRoutes),
+        canActivate: [logoutActivateGuard],
     },
-  {
-    path: 'event-card',
-    loadComponent: () => import('./events/event-card/event-card.page').then( m => m.EventCardPage)
-  },
-  {
-    path: 'event-detail',
-    loadComponent: () => import('./events/event-detail/event-detail.page').then( m => m.EventDetailPage)
-  },
-  {
-    path: 'event-page',
-    loadComponent: () => import('./events/event-page/event-page.page').then( m => m.EventPagePage)
-  },
+    {
+        path: 'events',
+        loadChildren: () =>
+            import('./events/event.routes').then((m) => m.eventsRoutes),
+        canActivate: [loginActivateGuard],
+    },
 ];

@@ -23,6 +23,19 @@
             </ion-item>
 
             <ion-item>
+                <ion-input type="email" name="emailRepeat" label="Repeat Email" labelPlacement="floating" required email
+                    [(ngModel)]="emailRepeat" #emailRepeatModel="ngModel"></ion-input>
+                @if (emailRepeatModel.dirty && emailRepeatModel.valid && emailRepeat === user.email) {
+                <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
+                }
+                @if (emailRepeatModel.dirty && emailRepeatModel.valid && emailRepeat !== user.email) {
+                <ion-text color="danger" style="font-size: 0.75rem;">
+                    Email addresses do not match
+                </ion-text>
+                }
+            </ion-item>
+
+            <ion-item>
                 <ion-input type="password" name="password" label="Password" labelPlacement="floating" minlength="4"
                     required [(ngModel)]="user.password" #passModel="ngModel"></ion-input>
                 @if (passModel.dirty && passModel.valid) {
@@ -31,7 +44,7 @@
             </ion-item>
             <ion-item>
                 <ion-input type="password" name="password2" label="Repeat password" labelPlacement="floating" required
-                    [valueEquals]="user.password!" [(ngModel)]="password2" #passModel2="ngModel"></ion-input>
+                    [valueEquals]="user.password!" [(ngModel)]="passwordRepeat" #passModel2="ngModel"></ion-input>
                 @if (passModel2.dirty && passModel2.valid) {
                 <ion-icon name="checkmark-circle" slot="end" color="success"></ion-icon>
                 }
@@ -55,7 +68,7 @@
             <ion-row>
                 <ion-col>
                     <ion-button type="submit" color="primary" expand="block"
-                        [disabled]="registerForm.invalid || !user.avatar">
+                        [disabled]="registerForm.invalid || !user.avatar || emailRepeat !== user.email || passwordRepeat !== user.password">
                         <ion-icon name="document-text" slot="start"></ion-icon>
                         Register
                     </ion-button>

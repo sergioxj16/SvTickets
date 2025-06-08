@@ -18,7 +18,7 @@ import {
     IonGrid,
     IonRow,
     IonCol,
-    IonLabel,
+    IonLabel, IonText
 } from '@ionic/angular/standalone';
 import { User } from '../../interfaces/user';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
@@ -34,7 +34,7 @@ import { CanComponentDeactivate } from '../../shared/guards/leave-page.guard';
     templateUrl: './register.page.html',
     styleUrls: ['./register.page.scss'],
     standalone: true,
-    imports: [
+    imports: [IonText,
         FormsModule,
         RouterLink,
         IonRouterLink,
@@ -118,7 +118,9 @@ export class RegisterPage implements CanComponentDeactivate {
         lat: this.coords()[0],
         lng: this.coords()[1],
     };
-    password2 = '';
+    passwordRepeat = '';
+    emailRepeat = '';
+    skipGuard = false;
 
     #authService = inject(AuthService);
     #toastCtrl = inject(ToastController);
@@ -126,16 +128,42 @@ export class RegisterPage implements CanComponentDeactivate {
     #changeDetector = inject(ChangeDetectorRef);
 
     register() {
-        this.#authService.register(this.user).subscribe(async () => {
-            (
-                await this.#toastCtrl.create({
+        try {
+            this.#authService.register(this.user).subscribe(async () => {
+                const toast = await this.#toastCtrl.create({
                     duration: 3000,
                     position: 'bottom',
-                    message: 'User registered!',
-                })
-            ).present();
-            this.#nav.navigateRoot(['/auth/login']);
-        });
+                    message: 'User registered successfully!',
+                });
+                await toast.present();
+                this.skipGuard = true;
+                this.#nav.navigateRoot(['/auth/login']);
+            }, async (error) => {
+                let errorMessage = 'Registration failed.';
+                if (error.error && Array.isArray(error.error.message)) {
+                    errorMessage = error.error.message.join(' ');
+                } else if (error.error && typeof error.error.message === 'string') {
+                    errorMessage = error.error.message;
+                }
+                const toast = await this.#toastCtrl.create({
+                    duration: 3000,
+                    position: 'bottom',
+                    message: errorMessage,
+                });
+                await toast.present();
+            });
+
+        } catch (error) {
+            this.#toastCtrl.create({
+                duration: 3000,
+                position: 'bottom',
+                message: 'Unexpected error: ' + error,
+            }).then(toast => toast.present());
+        }
+    }
+
+    emailsMatch() {
+        return this.user.email === this.emailRepeat;
     }
 
     async takePhoto() {
@@ -177,7 +205,7 @@ export class RegisterPage implements CanComponentDeactivate {
         }
     }
 
-    canDeactivate() {
+    async canDeactivate() {
         return confirm('¿Seguro que quieres salir sin guardar?');
     }
 }
