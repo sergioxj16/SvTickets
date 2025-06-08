@@ -16,7 +16,7 @@
             @if (event().mine) {
             <ion-button (click)="deleteEvent()" class="btn btn-danger delete">delete</ion-button>
             <a [routerLink]="['/events', event().id, 'edit']">
-                <ion-button class="btn btn-success edit"><i class="bi bi-pencil-fill"></i></ion-button>
+                <ion-button class="btn btn-success edit"><i class="bi bi-pencil-fill"></i>Edit</ion-button>
             </a>
 
             }

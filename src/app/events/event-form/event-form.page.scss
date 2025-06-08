@@ -1,0 +1,117 @@
+/* event-form.page.scss */
+
+ion-header {
+    ion-toolbar {
+        --background: var(--ion-color-primary);
+
+        ion-title {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+    }
+}
+
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+ion-list {
+    margin-bottom: 16px;
+    padding: 20px;
+}
+
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+.form-label,
+ion-label.form-label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+    color: var(--ion-color-medium-shade);
+    font-size: 1rem;
+
+}
+
+.form-control,
+ion-textarea {
+    width: 100%;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 4px;
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+
+ion-input {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    min-height: 44px;
+}
+
+
+ion-textarea.form-control {
+    min-height: 80px;
+    resize: vertical;
+
+}
+
+ion-text[color="danger"] {
+    font-size: 0.95rem;
+    margin-top: 2px;
+    display: block;
+}
+
+ion-button[color="tertiary"] {
+    width: 100%;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+.img-thumbnail {
+    display: block;
+    max-width: 220px;
+    max-height: 220px;
+    margin: 0 auto 1rem auto;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    object-fit: cover;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
+.map-container {
+    position: relative;
+    height: 400px;
+}
+
+.autocomplete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    width: auto;
+}
+
+
+ion-grid {
+    margin-top: 1.5rem;
+}
+
+ion-button[type="submit"] {
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
