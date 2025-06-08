@@ -12,10 +12,8 @@
 
     .card-img-top {
         cursor: pointer;
-        object-fit: cover;
         object-position: center;
-        aspect-ratio: 16/9;
-        border-bottom: 1px solid var(--ion-border-color, #ddd);
+        width: 100%;
     }
 
     ion-card-header {
