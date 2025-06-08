@@ -1,73 +1,134 @@
-.card-img-top {
-    cursor: pointer;
-    object-fit: cover;
-    object-position: center center;
-    aspect-ratio: 16 / 10;
-}
+.event-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--ion-card-background, #fff);
+    color: var(--ion-text-color, #222);
 
-.rounded-circle {
-    width: 40px;
-    height: 40px;
-}
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
 
-.card-title a {
-    text-decoration: none;
-}
+    .card-img-top {
+        cursor: pointer;
+        object-fit: cover;
+        object-position: center;
+        aspect-ratio: 16/9;
+        border-bottom: 1px solid var(--ion-border-color, #ddd);
+    }
 
-.card-body {
-    position: relative;
+    ion-card-header {
+        padding: 12px 16px;
 
-    button.delete {
-        box-sizing: content-box;
-        border-radius: 50%;
-        padding: 6px;
-        position: absolute;
-        top: -14px;
-        right: 12px;
-        width: 16px;
-        height: 16px;
-        transition: all 0.5s ease-out;
-        white-space: nowrap;
-        overflow: hidden;
-        text-align: center;
-        line-height: 1em;
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
 
-        &:hover {
-            border-radius: 12px;
-            padding-left: 8px;
-            padding-right: 8px;
-            width: 68px;
+            a {
+                text-decoration: none;
+                color: var(--ion-text-color, #222);
 
-            &::before {
-                content: " Delete ";
-                font-size: 0.8em;
-                position: relative;
-                top: -1px;
+                &:hover {
+                    color: var(--ion-color-primary, #3b82f6);
+                }
             }
+        }
+
+        .card-text {
+            color: var(--ion-text-color-step-600, #555);
+            font-size: 0.95rem;
+            white-space: pre-wrap;
         }
     }
 
-    .card-text {
-        white-space: pre-wrap;
-    }
-}
+    ion-card-content {
+        padding: 12px 16px;
 
-.card-footer {
-    font-size: smaller;
+        .btn {
+            margin-right: 8px;
+        }
 
-    .avatar img {
-        width: 40px;
-        cursor: pointer;
-    }
+        .delete {
+            --background: #ef4444;
+            --color: #fff;
+            --border-radius: 50%;
+            padding: 6px;
+            width: 32px;
+            height: 32px;
+            font-size: 0;
+            position: absolute;
+            top: -12px;
+            right: 12px;
+            transition: all 0.3s ease;
 
-    .name a {
-        color: #385898;
-        font-weight: bold;
-        text-decoration: none;
+            &:hover {
+                --border-radius: 8px;
+                width: 90px;
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
 
-        &:hover {
-            text-decoration: underline;
+            &:hover::before {
+                content: 'Delete';
+            }
+        }
+
+        .creator-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            .avatar img {
+                width: 44px;
+                height: 44px;
+                object-fit: cover;
+                border-radius: 50%;
+                border: 2px solid var(--ion-border-color, #ddd);
+            }
+
+            .name a {
+                color: var(--ion-color-primary, #3b82f6);
+                font-weight: 600;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            .date {
+                font-size: 0.8rem;
+                color: var(--ion-text-color-step-600, #888);
+                margin-top: 4px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+        }
+
+        .event-details {
+            text-align: end;
+            font-size: 0.85rem;
+
+            .price,
+            .distance {
+                color: var(--ion-text-color, #333);
+                margin-bottom: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 4px;
+            }
+
+            .price {
+                font-weight: 600;
+            }
+
+            ion-icon {
+                font-size: 1rem;
+            }
         }
     }
 }

@@ -1,0 +1,49 @@
+.toolbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.toolbar-title {
+    flex: 1;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: start;
+    color: #fff;
+}
+
+.search-container {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.animated-searchbar {
+    --background: #fff;
+    --color: #000;
+    --border-radius: 8px;
+    margin: 0 8px;
+    flex: 1;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.order-toolbar {
+    --background: #f0f0f0;
+    --color: #000;
+}
+
+.order-toolbar ion-button {
+    --color: #000;
+}

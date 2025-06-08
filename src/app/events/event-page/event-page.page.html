@@ -1,27 +1,28 @@
 <ion-header>
     <ion-toolbar color="primary">
         <div class="toolbar-content">
-            <ion-title>Events</ion-title>
-
+            <ion-title class="toolbar-title">Events</ion-title>
             <ion-button (click)="toggleSearch()">
                 <ion-icon [name]="searchVisible() ? 'close-sharp' : 'search-sharp'"></ion-icon>
             </ion-button>
-
-            @if (searchVisible()) {
-            <ng-container>
-                <ion-searchbar [formControl]="searchControl" class="animated-searchbar"></ion-searchbar>
-            </ng-container>
-            <ion-toolbar>
-                <ion-buttons slot="start">
-                    <ion-button (click)="orderBy('distance')">Order by Distance</ion-button>
-                    <ion-button (click)="orderBy('date')">Order by Date</ion-button>
-                    <ion-button (click)="orderBy('price')">Order by Price</ion-button>
-                </ion-buttons>
-            </ion-toolbar>
-            }
         </div>
+
+        @if (searchVisible()) {
+        <div class="search-container">
+            <ion-searchbar [formControl]="searchControl" class="animated-searchbar"></ion-searchbar>
+        </div>
+
+        <ion-toolbar class="order-toolbar">
+            <ion-buttons slot="start">
+                <ion-button (click)="orderBy('distance')">Distance</ion-button>
+                <ion-button (click)="orderBy('date')">Date</ion-button>
+                <ion-button (click)="orderBy('price')">Price</ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+        }
     </ion-toolbar>
 </ion-header>
+
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="secondary" [routerLink]="['/events/add']" [routerDirection]="'root'">
