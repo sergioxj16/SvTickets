@@ -30,8 +30,8 @@ export class AppComponent {
         addIcons({ funnelSharp, shieldHalfSharp, personAddSharp, personRemoveSharp, navigateSharp, locationSharp, peopleSharp, chatbubblesSharp, informationSharp, closeSharp, createSharp, eyeSharp, arrowUndoCircleSharp, logOutSharp, addSharp, homeSharp, trashBinSharp, thumbsUpSharp, thumbsDownSharp, images, camera, logIn, personAddOutline, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, exit, bookmarkOutline, bookmarkSharp });
 
         effect(() => {
-            if (this.authService.isLogged()) {
-                this.user.set(this.profileService.user());
+            if (this.authService.logged()) {
+                this.profileService.getProfile().subscribe((user) => (this.user.set(user)));
             } else {
                 this.user.set(null);
             }
