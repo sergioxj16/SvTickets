@@ -30,9 +30,14 @@ export class ProfileService {
                 .pipe(map((resp) => resp.user));
         }
         return request$.pipe(
-            tap(user => this._user.set(user))
+            tap(user => {
+                if (!id) {
+                    this._user.set(user);
+                }
+            })
         );
     }
+
 
     updateProfile(userData: UserProfileEdit): Observable<void> {
         return this.#http.put<void>(`users/me`, userData).pipe(
