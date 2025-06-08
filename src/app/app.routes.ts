@@ -20,4 +20,10 @@ export const routes: Routes = [
             import('./events/event.routes').then((m) => m.eventsRoutes),
         canActivate: [loginActivateGuard],
     },
+    {
+        path: 'profile',
+        loadChildren: () =>
+            import('./profile/profile.routes').then((m) => m.profileRoutes),
+        canActivate: [loginActivateGuard],
+    },
 ];
