@@ -13,8 +13,7 @@
             </ion-label>
         </ion-item>
         @for (attendee of attendees(); track attendee.id) {
-
-        <ion-item>
+        <ion-item [routerLink]="['/profile', attendee.id]">
             <ion-avatar slot="start">
                 <img [src]="attendee.avatar || 'assets/imgs/avatar.png'" alt="{{ attendee.name }}">
             </ion-avatar>
@@ -24,7 +23,7 @@
         }
     </ion-list>
     } @else {
-    <ion-text color="medium" class="ion-padding">
+    <ion-text color="medium" class="ion-padding" >
         No attendees yet.
     </ion-text>
     }

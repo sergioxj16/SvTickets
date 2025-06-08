@@ -3,7 +3,7 @@
         <ion-buttons slot="start">
             <ion-back-button defaultHref="events"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ event().title }}</ion-title>
+        <ion-title>{{ event()!.title }}</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -24,9 +24,9 @@
             <ion-label>Attend</ion-label>
         </ion-tab-button>
 
-        @if (event().attend) {
+        @if (event()!.attend) {
         <ion-tab-button tab="comments">
-            <ion-icon name="chatbox-ellipses-sharp"></ion-icon>
+            <ion-icon name="chatbox-sharp"></ion-icon>
             <ion-label>Comments</ion-label>
         </ion-tab-button>
         }

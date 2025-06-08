@@ -2,7 +2,7 @@
     <ion-toolbar></ion-toolbar>
     <ion-toolbar>
         <ion-label>
-            {{ event().address }}
+            {{ event().address ? event().address : 'No Location Available' }}
         </ion-label>
     </ion-toolbar>
 </ion-header>

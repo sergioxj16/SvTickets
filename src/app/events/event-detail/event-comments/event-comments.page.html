@@ -1,13 +1,59 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>event-comments</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Event Comments</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">event-comments</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">Event Comments</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    @if (event()!.attend) {
+        @if (comments().length > 0 ) {
+        <ion-list>
+            <ion-item>
+                <ion-label>
+                    <h2>Comment Section ({{ comments().length }})</h2>
+                </ion-label>
+            </ion-item>
+            @for (comment of comments(); track comment.id) {
+            <ion-item>
+                <ion-avatar slot="start">
+                    <img [src]="comment.user.avatar || 'assets/imgs/avatar.png'" alt="User Avatar" />
+                </ion-avatar>
+                <ion-label>
+                    <h2>
+                        <a [routerLink]="['/profile', comment.user.id]" class="name">
+                            {{ comment.user.name }}
+                        </a>
+                    </h2>
+                    <p class="email">{{ comment.user.email }}</p>
+                    <p class="comment">{{ comment.comment }}</p>
+                </ion-label>
+            </ion-item>
+            }
+        </ion-list>
+        } @else {
+        <ion-text color="medium" class="ion-padding">
+            No comments yet.
+        </ion-text>
+        }
+
+
+    <form [formGroup]="commentForm" (submit)="postComment($event)" class="ion-padding">
+        <ion-item lines="full">
+            <textarea formControlName="message" name="comment" placeholder="Write a comment" rows="3"></textarea>
+        </ion-item>
+        <ion-button type="submit" expand="block" color="primary" [disabled]="commentForm.invalid"
+            class="ion-margin-top">
+            Send
+        </ion-button>
+    </form>
+    } @else {        
+        <ion-text color="medium" class="ion-padding">
+            attend the event to comment.
+        </ion-text>
+    }
 </ion-content>

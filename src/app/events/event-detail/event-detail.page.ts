@@ -1,4 +1,4 @@
-import { Component, input, } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -17,7 +17,7 @@ import {
 } from '@ionic/angular/standalone';
 import { MyEvent } from '../../interfaces/myevent';
 import { addIcons } from 'ionicons';
-import { chatboxEllipsesSharp, information, informationCircleSharp, locationSharp, peopleSharp } from 'ionicons/icons';
+import { chatboxEllipsesSharp, information, informationCircleSharp, locationSharp, peopleSharp, chatboxSharp, ellipseSharp } from 'ionicons/icons';
 
 @Component({
     selector: 'app-event-detail',
@@ -42,6 +42,6 @@ import { chatboxEllipsesSharp, information, informationCircleSharp, locationShar
 export class EventDetailPage {
     event = input.required<MyEvent>();
     constructor() {
-        addIcons({ informationCircleSharp, locationSharp, peopleSharp, chatboxEllipsesSharp });
+        addIcons({ informationCircleSharp, locationSharp, peopleSharp, chatboxSharp, ellipseSharp });
     }
 }

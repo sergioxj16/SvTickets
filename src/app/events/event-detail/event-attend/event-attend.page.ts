@@ -6,13 +6,15 @@ import { User } from 'src/app/interfaces/user';
 import { EventService } from '../../services/event.service';
 import { EventDetailPage } from '../event-detail.page';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-event-attend',
     templateUrl: './event-attend.page.html',
     styleUrls: ['./event-attend.page.scss'],
     standalone: true,
-    imports: [IonAvatar, IonNote, IonButton, IonCol, IonRow, IonGrid, IonText, IonLabel, IonItem, IonList, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+    imports: [IonAvatar, IonNote, IonButton, IonCol, IonRow, IonGrid, IonText, IonLabel, IonItem, IonList, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterModule]
 })
 export class EventAttendPage {
 
@@ -38,18 +40,18 @@ export class EventAttendPage {
     confirmAttendance() {
         this.#eventService.postAttend(this.event()!.id)
             .pipe(takeUntilDestroyed(this.#destroyRef))
-            .subscribe(() => {
-                this.isAttending.set(true);
-                this.loadAttendees();
+            .subscribe(async () => {
+                await this.isAttending.set(true);
+                await this.loadAttendees();
             });
     }
 
     cancelAttendance() {
         this.#eventService.deleteAttend(this.event()!.id)
             .pipe(takeUntilDestroyed(this.#destroyRef))
-            .subscribe(() => {
-                this.isAttending.set(false);
-                this.loadAttendees();
+            .subscribe(async () => {
+                await this.isAttending.set(false);
+                await this.loadAttendees();
             });
     }
 }
