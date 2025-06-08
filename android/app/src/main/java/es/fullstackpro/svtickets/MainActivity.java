@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package es.fullstackpro.svtickets;
 
 import com.getcapacitor.BridgeActivity;
 
