@@ -31,7 +31,7 @@ export class AppComponent {
 
         effect(() => {
             if (this.authService.logged()) {
-                this.profileService.getProfile().subscribe((user) => (this.user.set(user)));
+                this.user.set(this.profileService.user());
             } else {
                 this.user.set(null);
             }

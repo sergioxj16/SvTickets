@@ -1,6 +1,6 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import {
     User,
     UserPasswordEdit,
@@ -15,30 +15,48 @@ import { UserResponse } from '../../interfaces/responses';
 export class ProfileService {
     #http = inject(HttpClient);
 
+    private _user = signal<User | null>(null);
+    user = this._user.asReadonly();
+
     getProfile(id?: number): Observable<User> {
+        let request$: Observable<User>;
         if (id) {
-            return this.#http
+            request$ = this.#http
                 .get<UserResponse>(`users/${id}`)
                 .pipe(map((resp) => resp.user));
+        } else {
+            request$ = this.#http
+                .get<UserResponse>(`users/me`)
+                .pipe(map((resp) => resp.user));
         }
-        return this.#http
-            .get<UserResponse>(`users/me`)
-            .pipe(map((resp) => resp.user));
+        return request$.pipe(
+            tap(user => this._user.set(user))
+        );
     }
 
     updateProfile(userData: UserProfileEdit): Observable<void> {
-        return this.#http.put<void>(`users/me`, userData).pipe(map((resp) => resp));
+        return this.#http.put<void>(`users/me`, userData).pipe(
+            tap(() => {
+                const current = this._user();
+                if (current) {
+                    this._user.set({ ...current, ...userData });
+                }
+            })
+        );
     }
 
     updateProfileAvatar(userAvatar: UserPhotoEdit): Observable<void> {
-        return this.#http
-            .put<void>(`users/me/photo`, userAvatar)
-            .pipe(map((resp) => resp));
+        return this.#http.put<void>(`users/me/photo`, userAvatar).pipe(
+            tap(() => {
+                const current = this._user();
+                if (current) {
+                    this._user.set({ ...current, avatar: userAvatar.avatar });
+                }
+            })
+        );
     }
 
     updateUserPassword(userPassword: UserPasswordEdit): Observable<void> {
-        return this.#http
-            .put<void>(`users/me/password`, userPassword)
-            .pipe(map((resp) => resp));
+        return this.#http.put<void>(`users/me/password`, userPassword);
     }
 }

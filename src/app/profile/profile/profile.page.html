@@ -1,13 +1,195 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-title>{{ user().name }}</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<ion-content class="ion-padding">
+    <div class="profile-container">
+        <ion-grid>
+            <ion-row class="ion-margin-top">
+                <ion-col size="2" class="profile-image-container">
+                    <ion-avatar class="avatar">
+                        <img [src]="user().avatar" alt="Profile Picture">
+                    </ion-avatar>@if (user().me ) {
+                    <ion-button expand="block" color="tertiary" (click)="showAvatarForm()">
+                        <ion-icon name="camera" slot="start"></ion-icon>
+                        Edit Avatar
+                    </ion-button>
+                    }
+                </ion-col>
+
+                <ion-col size="8">
+                    <h2>Name: {{ user().name }}</h2>
+                    <p class="text-muted">Email: {{ user().email }}</p>
+                    @if (user().me) {
+                    <ion-button expand="block" (click)="showProfileForm()">Edit Profile</ion-button>
+                    <ion-button expand="block" color="success" (click)="showPasswordForm()">Edit Password</ion-button>
+
+                    <ion-button expand="block" fill="outline" [routerLink]="['/events']"
+                        [queryParams]="{ creator: user().id }">
+                        Events created by {{ user().name }}
+                    </ion-button>
+
+                    <ion-button expand="block" fill="outline" [routerLink]="['/events']"
+                        [queryParams]="{ attending: user().id }">
+                        Events {{ user().name }} is attending
+                    </ion-button>
+                    }
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="12">
+                    <ion-img style="height: 350px;" [src]="user().avatar"></ion-img>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <div class="map-container">
+            <ol-map [coordinates]="[coordinates.lng, coordinates.lat]">
+                <ol-marker [coordinates]="[coordinates.lng, coordinates.lat]"></ol-marker>
+            </ol-map>
+        </div>
+    </div>
+
+    <!-- Avatar Modal -->
+    <ion-modal [isOpen]="isAvatarFormVisible">
+        <ng-template>
+            <ion-header>
+                <ion-toolbar color="tertiary">
+                    <ion-title>Edit Avatar</ion-title>
+                    <ion-buttons slot="end">
+                        <ion-button (click)="hideFormButtons()">Close</ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <form [formGroup]="avatarForm" (ngSubmit)="savePhoto()">
+                    <ion-button type="button" expand="block" (click)="takePhoto()">
+                        <ion-icon name="camera" slot="start"></ion-icon>
+                        Take new photo
+                    </ion-button>
+                    <ion-button type="button" expand="block" (click)="pickFromGallery()">
+                        <ion-icon name="images" slot="start"></ion-icon>
+                        Select from gallery
+                    </ion-button>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-img style="height: 350px;" [src]="newAvatarBase64 || avatarBase64"></ion-img>
+                        </ion-col>
+                    </ion-row>
+                    <ion-button expand="block" type="submit" color="success">Save</ion-button>
+                </form>
+            </ion-content>
+        </ng-template>
+    </ion-modal>
+
+    <ion-modal [isOpen]="isProfileFormVisible">
+        <ng-template>
+            <ion-header>
+                <ion-toolbar color="primary">
+                    <ion-title>Edit Profile</ion-title>
+                    <ion-buttons slot="end">
+                        <ion-button (click)="hideFormButtons()">Close</ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <form [formGroup]="profileForm" (ngSubmit)="updateProfileInfo()">
+                    <ion-item>
+                        <ion-label position="floating">Name</ion-label>
+                        <ion-input [formControl]="profileForm.controls['name']"></ion-input>
+                    </ion-item>
+
+                    @if(profileForm.controls['name'].errors?.['required'] && profileForm.controls['name'].touched){
+                    <ion-text color="danger">
+                        <p class="ion-padding-start">Name is required.</p>
+                    </ion-text>
+                    }
+
+                    <ion-item>
+                        <ion-label position="floating">Email</ion-label>
+                        <ion-input type="email" [formControl]="profileForm.controls['email']"></ion-input>
+                    </ion-item>
+
+                    @if(profileForm.controls['email'].errors?.['required'] && profileForm.controls['email'].touched){
+                    <ion-text color="danger">
+                        <p class="ion-padding-start">Email is required.</p>
+                    </ion-text>
+                    }
+
+                    @if(profileForm.controls['email'].errors?.['email'] && profileForm.controls['email'].touched){
+                    <ion-text color="danger">
+                        <p class="ion-padding-start">Enter a valid email address.</p>
+                    </ion-text>
+                    }
+
+                    <ion-button expand="block" type="submit" color="success" [disabled]="profileForm.invalid">
+                        Save
+                    </ion-button>
+                </form>
+            </ion-content>
+        </ng-template>
+    </ion-modal>
+
+    <!-- Password Modal -->
+    <ion-modal [isOpen]="isPasswordFormVisible">
+        <ng-template>
+            <ion-header>
+                <ion-toolbar color="primary">
+                    <ion-title>Change Password</ion-title>
+                    <ion-buttons slot="end">
+                        <ion-button (click)="hideFormButtons()">Close</ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()">
+                    <ion-item>
+                        <ion-label position="floating">New Password</ion-label>
+                        <ion-input type="password" [formControl]="passwordForm.controls['password']"></ion-input>
+                    </ion-item>
+
+                    @if(passwordForm.controls['password'].errors?.['required'] &&
+                    passwordForm.controls['password'].touched){
+                    <ion-text color="danger">
+                        <p class="ion-padding-start">Password is required.</p>
+                    </ion-text>
+                    }
+
+                    @if(passwordForm.controls['password'].errors?.['minlength'] &&
+                    passwordForm.controls['password'].touched){
+                    <ion-text color="danger">
+                        <p class="ion-padding-start">Password must be at least 4 characters long.</p>
+                    </ion-text>
+                    }
+
+                    <ion-item>
+                        <ion-label position="floating">Repeat Password</ion-label>
+                        <ion-input type="password" [formControl]="passwordForm.controls['password2']"
+                            [valueEquals]="passwordForm.controls['password'].value"></ion-input>
+                    </ion-item>
+
+                    @if(passwordForm.controls['password2'].errors?.['required'] &&
+                    passwordForm.controls['password2'].touched){
+                    <ion-text color="danger">
+                        <p class="ion-padding-start">Repeat Password is required.</p>
+                    </ion-text>
+                    }
+
+                    @if(passwordForm.controls['password2'].errors?.['valueEquals'] &&
+                    passwordForm.controls['password2'].touched){
+                    <ion-text color="danger">
+                        <p class="ion-padding-start">Passwords do not match.</p>
+                    </ion-text>
+                    }
+
+                    <ion-button expand="block" type="submit" color="success" (click)="hideFormButtons()"
+                        [disabled]="passwordForm.invalid || passwordForm.controls['password2'].errors?.['valueEquals']">
+                        Save
+                    </ion-button>
+                </form>
+            </ion-content>
+        </ng-template>
+    </ion-modal>
